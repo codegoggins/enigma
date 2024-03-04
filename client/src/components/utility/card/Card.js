@@ -2,7 +2,7 @@ import React from 'react'
 
 const Card = () => {
   return (
-    <div className='min-w-[21rem] p-1 py-4'>
+    <div className='min-w-[21rem] p-1'>
         <div className='h-[25rem] w-full overflow-hidden rounded-[1.5rem] relative'>
             <img 
             className='object-cover w-full h-full'

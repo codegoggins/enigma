@@ -2,6 +2,7 @@ import React from 'react'
 import Featured from '../../components/app/featured/Featured'
 import Header from '../../components/app/header/Header'
 import Divider from '../../components/utility/divider/Divider'
+import Recent from '../../components/app/recent/Recent'
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
         <Divider/>
         <Featured/>
         <Divider/>
+        <Recent/>
     </div>
   )
 }
