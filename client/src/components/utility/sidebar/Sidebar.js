@@ -11,45 +11,61 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
   const onClose = () => {
     setSidebarOpen(false);
   };
+
+  const iconStyle = 'text-[1.3rem] text-blackTertiary';
+  const itemStyle = 'flex items-center text-blackTertiary gap-2 cursor-pointer';
+
+  const postsItems = [
+    {
+        title:'Trending Posts',
+        icon:<IoTrendingUpSharp className={iconStyle}/>
+    },
+    {
+        title:'Top Authors',
+        icon:<SlBadge className={iconStyle}/>
+    },
+    {
+        title:'Recent Posts',
+        icon:<PiClockCountdown className={iconStyle}/>
+    },
+    {
+        title:'Saved Posts',
+        icon:<IoBookmarksOutline className={iconStyle}/>
+    },
+  ]
+
+
   return (
     <>
       <Drawer title="enigma" onClose={onClose} open={sidebarOpen} width={280}>
-        <div className='no-scrollbar h-full flex flex-col gap-4 p-[1rem]'>
-            <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                <BsPencilSquare className='text-[1.3rem] text-blackTertiary'/>
+        <div className='no-scrollbar h-full flex flex-col p-[1rem] gap-4'>
+            <div className={itemStyle + ` md:hidden`}>
+                <BsPencilSquare className={iconStyle}/>
                 <h1 className='text-[1rem]'>Write</h1>
             </div>
-            <div className='h-[1px] bg-graySecondary w-full mb-6'></div>
+            <div className='h-[1px] bg-graySecondary w-full my-2 md:hidden'></div>
             <div className='flex flex-col gap-8'>
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <IoTrendingUpSharp className='text-[1.3rem] text-blackTertiary'/>
-                    <h1 className='text-[1rem]'>Trending Posts</h1>
-                </div>                
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <SlBadge className='text-[1.3rem] text-blackTertiary'/>
-                    <h1 className='text-[1rem]'>Top Authors</h1>
-                </div>                
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <PiClockCountdown className='text-[1.3rem] text-blackTertiary'/>
-                    <h1 className='text-[1rem]'>Recent Posts</h1>
-                </div>                
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <IoBookmarksOutline className='text-[1.3rem] text-blackTertiary'/>
-                    <h1 className='text-[1rem]'>Saved Posts</h1>
-                </div>                
+                {
+                    postsItems.map((item,index)=>(
+                        <div className={itemStyle} key={index}>
+                            {item.icon}
+                            <h1 className='text-[1rem]'>{item.title}</h1>
+                        </div>  
+                    ))
+                }              
             </div>
-            <div className='h-[1px] bg-graySecondary w-full mb-6'></div>
+            <div className='h-[1px] bg-graySecondary w-full my-2'></div>
             <div className='flex flex-col gap-8'>
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <IoExitOutline className='text-[1.3rem] text-blackTertiary transform -rotate-180'/>
+                <div className={itemStyle}>
+                    <IoExitOutline className={iconStyle + ` transform -rotate-180`}/>
                     <h1 className='text-[1rem]'>Sign Out</h1>
                 </div>                
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <IoSettingsOutline className='text-[1.3rem] text-blackTertiary'/>
+                <div className={itemStyle}>
+                    <IoSettingsOutline className={iconStyle}/>
                     <h1 className='text-[1rem]'>Settings</h1>
                 </div>                                
-                <div className='flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                    <GoPerson className='text-[1.3rem] text-blackTertiary'/>
+                <div className={itemStyle}>
+                    <GoPerson className={iconStyle}/>
                     <h1 className='text-[1rem]'>Profile</h1>
                 </div>                                
             </div>

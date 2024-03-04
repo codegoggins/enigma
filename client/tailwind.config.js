@@ -25,7 +25,13 @@ module.exports = {
       },
       fontFamily:{
         'cookie': ['Cookie', 'cursive'],
-      }
+      },
+      screens: {
+        'sm': '600px',
+        'md': '800px',
+        'lg': '1024px',
+        'xl': '1280px', 
+      },
     },
   },
   plugins: [],
