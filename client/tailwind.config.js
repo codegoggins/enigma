@@ -10,7 +10,8 @@ module.exports = {
         'blackTertiary':'#1c1c1c99',
         'grayPrimary':'#cccccc',
         'graySecondary':'#f2f2f1',
-        'lightGray':'F2F2F2',
+        'lightGray':'#F2F2F2',
+        'darkGray':'#e6e6ea',
       },
       fontSize: {
          '1':'1.3rem',

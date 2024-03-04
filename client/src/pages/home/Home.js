@@ -12,6 +12,7 @@ const Home = () => {
         <Featured/>
         <Divider/>
         <Recent/>
+        <Divider/>
     </div>
   )
 }

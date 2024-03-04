@@ -20,6 +20,9 @@ const Recent = () => {
                 <Card/>
                 <Card/>
             </div>
+            <div className='bg-blackPrimary text-white rounded-[5rem] px-6 py-3 flex items-center justify-center w-[14rem] mx-auto cursor-pointer'>
+                <h1>Load More</h1>
+            </div>
         </div>
   )
 }
