@@ -1,3 +1,7 @@
+.ant-drawer {
+  border: none !important;
+}
+
 .ant-drawer .ant-drawer-header {
   border: none;
 }

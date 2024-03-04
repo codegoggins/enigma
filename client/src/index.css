@@ -5,16 +5,16 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
 
-body {
+/* body {
   background-color: white;
-}
+} */
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,8 +23,16 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: hsl(0, 0%, 80%);
+  border-radius: 8rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: hsl(0, 0%, 70%);
-} */
+}
+
+.sec-scroll::-webkit-scrollbar {
+  display: none;
+}
+.sec-scroll:hover::-webkit-scrollbar {
+  display: block;
+}
