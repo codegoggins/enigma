@@ -1,6 +1,6 @@
 import React from 'react';
 import { Drawer } from 'antd';
-import './Sidebar.css';
+import '../styles/Sidebar.css';
 import { BsPencilSquare } from "react-icons/bs";
 import { IoBookmarksOutline,IoSettingsOutline,IoExitOutline,IoTrendingUpSharp } from "react-icons/io5";
 import { PiClockCountdown } from "react-icons/pi";

@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Divider from '../../components/utility/divider/Divider';
 import { BiUpvote,BiDownvote} from "react-icons/bi";
 import { LiaComments } from "react-icons/lia";
 import { IoBookmarksOutline} from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
+import Comment from '../../components/app/comment/Comment';
 
 const SinglePost = () => {
+
+  const [commentSectionOpen,setCommentSectionOpen] = useState(false);
+
   return (
     <div className='w-full p-6 flex items-center justify-center'>
-        <div className='w-full flex flex-col px-[16rem]'>
+        <div className='w-full flex flex-col px-[1rem] md:px-[16rem]'>
+            {/* ADD Image if the blog posted by user consists of an image */}
+            <div className='h-[18rem] w-full rounded-md overflow-hidden'>
+              <img className='h-full w-full object-cover' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
+            </div>
             <div className='flex flex-col gap-1'>
                 <h1 className='text-[3rem] font-[600] text-blackPrimary font-brygada'>Disruption Comes to Google</h1>
                 <div className='flex items-center justify-between'>
@@ -26,7 +34,7 @@ const SinglePost = () => {
                <div className='flex items-center gap-3 text-[1.5rem] font-[400] text-blackTertiary font-brygada'>
                     <h1 className='cursor-pointer flex items-center gap-[0.2rem] text-[1.6rem]'><BiUpvote /><span className='text-[0.9rem] font-[500]'>24</span></h1>
                     <h1 className='cursor-pointer flex items-center gap-[0.2rem] text-[1.6rem]'><BiDownvote/><span className='text-[0.9rem] font-[500]'>13</span></h1>
-                    <h1 className='cursor-pointer flex items-center gap-[0.2rem] text-[1.8rem]'><LiaComments /><span className='text-[0.9rem] font-[500]'>6</span></h1>
+                    <h1 onClick={()=>setCommentSectionOpen(true)} className='cursor-pointer flex items-center gap-[0.2rem] text-[1.8rem]'><LiaComments /><span className='text-[0.9rem] font-[500]'>6</span></h1>
                </div>
                <div className='flex items-center gap-3 text-[1.5rem] text-blackTertiary'>
                     <h1 className='cursor-pointer'><IoBookmarksOutline/></h1>
@@ -51,12 +59,9 @@ const SinglePost = () => {
                         <h1 className='text-blackPrimary font-brygada text-[0.9rem]'>Google</h1>
                     </div>
                 </div>
-                <div className='flex items-center gap-3 text-[1.5rem] text-blackTertiary'>
-                    <h1 className='cursor-pointer'><IoBookmarksOutline/></h1>
-                    <h1 className='cursor-pointer'><BsThreeDots/></h1>
-               </div>
             </div>
         </div>
+        <Comment commentSectionOpen={commentSectionOpen} setCommentSectionOpen={setCommentSectionOpen}/>
     </div>
   )
 }
