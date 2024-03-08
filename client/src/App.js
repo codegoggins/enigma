@@ -5,6 +5,7 @@ import Login from './pages/login/Login';
 import Signup from './pages/signup/Signup';
 import Write from './pages/write/Write';
 import Search from './pages/search/Search';
+import SinglePost from './pages/single/SinglePost';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               <Route path='/register' element={<Signup/>}/>
               <Route path='/new-post' element={<Write/>}/>
               <Route path='/search' element={<Search/>}/>
+              <Route path='/:id' element={<SinglePost/>}/>
            </Routes>
        </BrowserRouter>
     </div>
