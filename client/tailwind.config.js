@@ -27,6 +27,7 @@ module.exports = {
       },
       fontFamily:{
         'cookie': ['Cookie', 'cursive'],
+        'brygada': ['"Brygada 1918"', 'serif']
       },
       screens: {
         'sm': '600px',

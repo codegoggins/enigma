@@ -10,10 +10,6 @@
   gap: 3rem !important;
 }
 
-.ant-drawer-mask {
-  background-color: transparent !important;
-}
-
 .ant-drawer-title {
   font-size: 3rem !important;
   font-weight: 400 !important;

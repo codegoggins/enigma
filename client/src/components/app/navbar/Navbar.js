@@ -22,10 +22,12 @@ const Navbar = () => {
             </div>
           </div>
           <div className='flex items-center justify-center gap-4'>
-            <div className='hidden md:flex items-center text-blackTertiary gap-2 cursor-pointer'>
-                <BsPencilSquare className='text-[1.3rem] text-blackTertiary'/>
-                <h1 className='text-[1rem]'>Write</h1>
-            </div>
+            <Link to='/new-post'>
+              <div className='hidden md:flex items-center text-blackTertiary gap-2 cursor-pointer'>
+                  <BsPencilSquare className='text-[1.3rem] text-blackTertiary'/>
+                  <h1 className='text-[1rem]'>Write</h1>
+              </div>
+            </Link>
             <IoSearchOutline className='text-[1.3rem] text-blackTertiary cursor-pointer sm:hidden'/>
             <IoNotificationsOutline className='text-[1.3rem] text-blackTertiary cursor-pointer'/>
             <div className='h-[2.6rem] w-[2.6rem] rounded-full flex items-center justify-center overflow-hidden cursor-pointer' onClick={()=>setSidebarOpen(true)}>
