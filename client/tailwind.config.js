@@ -12,6 +12,7 @@ module.exports = {
         'graySecondary':'#f2f2f1',
         'lightGray':'#F2F2F2',
         'darkGray':'#e6e6ea',
+        'borderGray':'#d9d9d9',
       },
       fontSize: {
          '1':'1.3rem',

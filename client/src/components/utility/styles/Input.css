@@ -1,0 +1,16 @@
+.ant-input-outlined {
+  height: 2.5rem;
+  font-family: "Inter", sans-serif;
+}
+.ant-input-affix-wrapper {
+  height: 2.5rem;
+  font-family: "Inter", sans-serif;
+}
+
+.ant-input-outlined:focus-within {
+  border-color: #1c1c1ccc !important;
+  box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.5) !important;
+}
+.ant-input-outlined:hover {
+  border-color: #1c1c1ccc !important;
+}
