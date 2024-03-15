@@ -274,3 +274,76 @@ const getAllBlogsByCategory = async (req, res) => {
     });
   }
 };
+
+const saveBlog = async (req,res) => {
+    const userId = req.user.id;
+    const blogId = req.params.id;
+
+    try{
+    const blog = await Blog.findById(blogId);
+    if(!blog){
+        return res.status(200).json({
+            success:false,
+            message:"Blog Not Found"
+        });
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $addToSet: { savedPosts: blogId } },
+            { new: true }
+    ).populate('savedPosts');
+
+    if (!updatedUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+    }
+
+    return res.status(200).json({
+        success:true,
+        message:"Blog saved successfully",
+        updatedUser:updatedUser,
+    });
+
+
+    }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:error.message,
+        })
+    }
+}
+
+const removeSavedBlog = async (req, res) => {
+    const userId = req.user.id;
+    const blogId = req.params.id;
+
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { savedPosts: blogId } },
+            { new: true }
+        ).populate('savedPosts');
+
+        if (!updatedUser) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Blog removed from saved posts successfully",
+            updatedUser:updatedUser,
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}
+module.exports = {createBlog,getAllBlogs,getSingleBlog,likeBlog,dislikeBlog,addComment,getAllComments,getAllBlogsByCategory,saveBlog,removeSavedBlog};
