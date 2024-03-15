@@ -1,1 +1,1 @@
-const BASE_URL = 'https://enigma-server.onrender.com/api/'
+export const api = 'https://enigma-server.onrender.com/api/'
