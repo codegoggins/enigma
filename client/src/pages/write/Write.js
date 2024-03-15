@@ -41,7 +41,7 @@ const Write = () => {
             onClick={handleOpenFileInput}
           >
             <InboxOutlined className='text-[3rem] text-blackPrimary'/>
-            <h1 className='text-center'>Drag & Drop or Click here to upload image</h1>
+            <h1 className='text-center'>Drag & Drop or Click here to upload an image</h1>
             <input
               type='file'
               ref={fileInputRef}
