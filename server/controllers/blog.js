@@ -172,3 +172,79 @@ const dislikeBlog = async (req, res) => {
         });
     }
 };
+
+const addComment = async (req,res) => {
+    const blogId = req.params.id;
+    const userId = req.user.id;
+    try{
+        const {content} = req.body;
+
+        const blog = await Blog.findById(blogId);
+        if(!blog){
+            return res.status(200).json({
+                success:false,
+                message:"Blog not found"
+            });
+        }
+
+        if(!content){
+            return res.status(400).status({
+                success:false,
+                message:"Comment content required",
+            })
+        }
+
+        const newComment = new Comment({content,author:userId});
+        const savedComment = await newComment.save();
+
+        await Blog.findByIdAndUpdate(blogId,{
+            $push:{comments:savedComment._id},
+        });
+        
+        return res.status(200).json({
+            success:true,
+            message:"Comment Added Successfully",
+            comment:savedComment
+        })
+    }catch(error){
+        return res.status(500).json({
+            sucess:false,
+            message:error.message
+        })
+    }
+}
+
+const getAllComments = async (req,res) => {
+      
+    const blogId = req.params.id;
+      
+    try{
+      
+      const blog = await Blog.findById(blogId).populate({
+        path:'comments',
+        populate:{
+            path:'author',
+            select:'-password',
+        },
+      });
+
+      if(!blog){
+        return res.status(400).json({
+            success:false,
+            message:'Blog not found',
+        })
+      }
+
+      return res.status(200).json({
+        success:true,
+        message:"Comments fetched successfully",
+        comments:blog.comments,
+      });
+
+      }catch(error){
+        return res.status(500).json({
+            success:false,
+            message:error.message
+        });
+      }
+}
