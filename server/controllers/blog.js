@@ -89,3 +89,86 @@ const getSingleBlog = async (req, res) => {
         });
     }
 };
+
+const likeBlog = async (req, res) => {
+    const blogId = req.params.id;
+    const userId = req.user.id;
+    try {
+
+        const blog = await Blog.findById(blogId);
+        if(!blog){
+            return res.status(200).json({
+                success:false,
+                message:"Blog not found"
+            });
+        }
+
+        if(!blog.likes.includes(userId)){
+            await User.findByIdAndUpdate(blog.author,{
+                $inc:{totalLikes:1}
+            });
+        }
+        if(blog.dislikes.includes(userId)){
+            await User.findByIdAndUpdate(blog.author,{
+                $inc:{totalDislikes:-1}
+            });
+        }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(blogId,{
+            $addToSet: { likes: userId },
+            $pull :{dislikes : userId}
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Blog liked successfully",
+            updatedBlog:updatedBlog,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
+
+const dislikeBlog = async (req, res) => {
+    const blogId = req.params.id;
+    const userId = req.user.id;
+    try {
+        const blog = await Blog.findById(blogId);
+        if(!blog){
+            return res.status(200).json({
+                success:false,
+                message:"Blog not found"
+            });
+        }
+
+        if(!blog.dislikes.includes(userId)){
+            await User.findByIdAndUpdate(blog.author,{
+                $inc:{totalDislikes:1}
+            });
+        }
+        if(blog.likes.includes(userId)){
+            await User.findByIdAndUpdate(blog.author,{
+                $inc:{totalLikes:-1}
+            });
+        }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(blogId,{
+            $addToSet: { dislikes: userId },
+            $pull :{likes : userId}
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: "Blog disliked successfully",
+            updatedBlog:updatedBlog,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
