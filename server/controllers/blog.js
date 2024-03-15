@@ -51,3 +51,41 @@ const createBlog = async (req,res) => {
         });
     }
 }
+
+const getAllBlogs = async (req, res) => {
+    try {
+        const allBlogs = await Blog.find().populate([{path: "author",select: "-password"},{path:"categories",select:"name"}]);
+        return res.status(200).json({
+            success: true,
+            message: 'All Blogs Fetched Successfully',
+            blogs: allBlogs,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error,
+        });
+    }
+};
+
+const getSingleBlog = async (req, res) => {
+    try {
+        const {id} = req.params;
+
+        const singleBlog = await Blog.findById(id).populate({
+            path: 'author',
+            select: '-password',
+        });
+
+        return res.status(200).json({
+            success: true,
+            message: 'Blog Fetched Successfully',
+            blog:singleBlog,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error,
+        });
+    }
+};
