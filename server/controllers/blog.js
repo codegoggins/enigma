@@ -248,3 +248,29 @@ const getAllComments = async (req,res) => {
         });
       }
 }
+
+
+const getAllBlogsByCategory = async (req, res) => {
+  const categoryName = req.params.tag;
+  try {
+    const category = await Category.findOne({ name: categoryName });
+    if (!category) {
+      return res.status(400).json({
+        success: false,
+        message: 'Category not found.',
+      });
+    }
+
+    const posts = await Blog.find({categories: {$in: [category._id]}}).populate([{path: "author",select: "-password"},{path:"categories",select:"name"}]);
+    return res.status(200).json({
+      success: true,
+      message: 'All Blogs Fetched Successfully',
+      blogs: posts,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error.',
+    });
+  }
+};
