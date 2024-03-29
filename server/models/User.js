@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { calculateRating } = require('../utils/calculateRating');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({

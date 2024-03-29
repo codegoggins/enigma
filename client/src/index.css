@@ -36,3 +36,22 @@ body {
 .sec-scroll:hover::-webkit-scrollbar {
   display: block;
 }
+.ant-select-multiple {
+  height: 3rem !important;
+  width: 25rem;
+}
+.ant-select-outlined.ant-select-multiple .ant-select-selection-item {
+  height: 2rem !important;
+  min-width: 4.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 0.4rem 0.2rem;
+}
+
+.ant-select-outlined .ant-select-selector:focus-within {
+  border: 1px solid #1c1c1c !important;
+}
+.ant-select-outlined .ant-select-selector:hover {
+  border: 1px solid #1c1c1c !important;
+}

@@ -4,6 +4,10 @@ import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import '../../components/utility/styles/Input.css'
 import { useLoginMutation } from '../../redux/services/AuthApi';
 import { useNavigate } from "react-router-dom";
+import {Loading3QuartersOutlined} from '@ant-design/icons';
+import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/services/Constants';
 
 const Login = () => {
 
@@ -15,12 +19,20 @@ const Login = () => {
     password:"",
   });
 
+  const domain = "localhost";
+  const dispatch = useDispatch();
+
   const handleLogin = async () => {
     try{
       const result = await login(form);
+      console.log(result);
       if(result?.data?.success){
         message.success(result?.data?.message);
+        const token = result.data.token;
+        Cookies.set('token', token, { domain: domain, expires: 1 });
+        dispatch(loginUser());
         navigate('/');
+        window.location.reload();
       }else{
         message.error(result?.data?.message);
       }
@@ -42,7 +54,9 @@ const Login = () => {
                 />
               </div>
               <div className='bg-blackPrimary text-white h-[2.5rem] rounded-md px-6 flex items-center justify-center w-full cursor-pointer' onClick={handleLogin}>
-                <h1>Sign In</h1>
+               {
+                isLogging ? <Loading3QuartersOutlined spin/> : <h1>Sign In</h1>
+               }
               </div>
            </div>
     </div>

@@ -1,16 +1,25 @@
 import React from 'react';
-import { Drawer } from 'antd';
+import { Drawer, message } from 'antd';
 import '../styles/Sidebar.css';
 import { BsPencilSquare } from "react-icons/bs";
 import { IoBookmarksOutline,IoSettingsOutline,IoExitOutline,IoTrendingUpSharp } from "react-icons/io5";
 import { PiClockCountdown } from "react-icons/pi";
 import { SlBadge } from "react-icons/sl"
 import { GoPerson } from "react-icons/go"
+import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../../redux/services/Constants';
 
 const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
   const onClose = () => {
     setSidebarOpen(false);
   };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const domain = "localhost";
+
 
   const iconStyle = 'text-[1.3rem] text-blackTertiary';
   const itemStyle = 'flex items-center text-blackTertiary gap-2 cursor-pointer';
@@ -34,6 +43,14 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
     },
   ]
 
+  const handleLogout = () => {
+        Cookies.remove('token', { domain: domain });
+        dispatch(logoutUser());
+        message.success("Logged Out Successfully");
+        setSidebarOpen(false);
+        navigate('/login');
+  }
+
 
   return (
     <>
@@ -56,7 +73,7 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
             </div>
             <div className='h-[1px] bg-graySecondary w-full my-2'></div>
             <div className='flex flex-col gap-8'>
-                <div className={itemStyle}>
+                <div className={itemStyle} onClick={handleLogout}>
                     <IoExitOutline className={iconStyle + ` transform -rotate-180`}/>
                     <h1 className='text-[1rem]'>Sign Out</h1>
                 </div>                
