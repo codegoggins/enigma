@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../../utility/card/Card'
 import { IoArrowForward } from 'react-icons/io5'
 
-const Featured = () => {
+const Featured = ({blogs}) => {
   return (
         <div className='flex flex-col gap-3 mb-8'>
             <div className='flex items-center justify-between'>
@@ -10,12 +10,11 @@ const Featured = () => {
               <h1 className='flex-1 flex justify-end text-blackSecondary cursor-pointer items-center gap-1'>Swipe to see more <IoArrowForward/></h1>
             </div>
             <div className='flex items-center gap-2 overflow-x-auto sec-scroll pb-[10px] hover:pb-0'>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
+              {
+                blogs?.map((item,index)=>(
+                <Card blog={item} key={index}/>
+                ))
+              }
             </div>
         </div>
   )

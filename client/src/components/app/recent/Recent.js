@@ -3,7 +3,7 @@ import Card from '../../utility/card/Card'
 import Authors from '../authors/Authors'
 import { IoArrowForward } from "react-icons/io5";
 
-const Recent = () => {
+const Recent = ({blogs}) => {
   return (
         <div className='flex flex-col gap-3 mb-8'>
              <div className='flex flex-col gap-6 sm:flex-row items-center justify-between'>
@@ -14,11 +14,11 @@ const Recent = () => {
                 </div>
              </div>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
-                <Card/>
+              {
+                blogs?.map((item,index)=>(
+                <Card blog={item} key={index}/>
+                ))
+              }
             </div>
             <div className='bg-blackPrimary text-white rounded-[5rem] px-6 py-3 flex items-center justify-center w-[14rem] mx-auto cursor-pointer'>
                 <h1>Load More</h1>

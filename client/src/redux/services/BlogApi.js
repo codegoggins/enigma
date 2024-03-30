@@ -20,6 +20,10 @@ export const blogApi = createApi({
         query:()=>"",
         providesTags:(result) => result ? ["blog"] : ["blog"],
        }),
+       getSingleBlog:builder.query({
+        query:(id)=>`${id}`,
+        providesTags:(result) => result ? ["blog"] : ["blog"],
+       }),
         createBlog:builder.mutation({
             query:(body) => ({
                 url:"create",
@@ -28,7 +32,7 @@ export const blogApi = createApi({
             }),
         }),
     })
-})
+});
 
-export const {useGetAllBlogsQuery,useCreateBlogMutation} = blogApi;
+export const {useGetAllBlogsQuery,useCreateBlogMutation,useGetSingleBlogQuery} = blogApi;
 export default blogApi;
