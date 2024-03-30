@@ -9,7 +9,7 @@ const Featured = ({blogs}) => {
               <h1 className='flex-1 text-[1.12rem]'>Get started with our <span className='font-[600]'>best stories</span></h1>
               <h1 className='flex-1 flex justify-end text-blackSecondary cursor-pointer items-center gap-1'>Swipe to see more <IoArrowForward/></h1>
             </div>
-            <div className='flex items-center gap-2 overflow-x-auto sec-scroll pb-[10px] hover:pb-0'>
+            <div className='flex gap-2 overflow-x-auto sec-scroll pb-[10px] hover:pb-0'>
               {
                 blogs?.map((item,index)=>(
                 <Card blog={item} key={index}/>

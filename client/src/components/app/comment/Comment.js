@@ -1,40 +1,40 @@
-import React from 'react';
-import { Drawer } from 'antd';
+import React, { useState } from 'react';
+import { Drawer,message} from 'antd';
 import '../../utility/styles/Sidebar.css';
-import { BsPencilSquare } from "react-icons/bs";
-import { IoBookmarksOutline,IoSettingsOutline,IoExitOutline,IoTrendingUpSharp } from "react-icons/io5";
-import { PiClockCountdown } from "react-icons/pi";
-import { SlBadge } from "react-icons/sl"
-import { GoPerson } from "react-icons/go"
 import Divider from '../../utility/divider/Divider';
+import { useGetUserQuery } from '../../../redux/services/UserApi';
+import { useCommentOnBlogMutation, useGetCommentsOnBlogQuery } from '../../../redux/services/BlogApi';
+import {Loading3QuartersOutlined} from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
-const Comment = ({commentSectionOpen,setCommentSectionOpen}) => {
+const Comment = ({commentSectionOpen,setCommentSectionOpen,blogId}) => {
   const onClose = () => {
     setCommentSectionOpen(false);
   };
+  const navigate = useNavigate();
+  const {data:user,isLoading:isLoadingUser} = useGetUserQuery();
+  const {data:allComments,isLoading:isLoadingComments} = useGetCommentsOnBlogQuery(blogId);
+  const [addComment,{isLoading:isCommenting}] = useCommentOnBlogMutation();
+  const [newComment,setNewComment] = useState("");
 
-  const iconStyle = 'text-[1.3rem] text-blackTertiary';
-  const itemStyle = 'flex items-center text-blackTertiary gap-2 cursor-pointer';
 
-  const postsItems = [
-    {
-        title:'Trending Posts',
-        icon:<IoTrendingUpSharp className={iconStyle}/>
-    },
-    {
-        title:'Top Authors',
-        icon:<SlBadge className={iconStyle}/>
-    },
-    {
-        title:'Recent Posts',
-        icon:<PiClockCountdown className={iconStyle}/>
-    },
-    {
-        title:'Saved Posts',
-        icon:<IoBookmarksOutline className={iconStyle}/>
-    },
-  ]
- 
+  const handleAddCommment = async () => {
+     const comment = {
+        id:blogId,
+        content:newComment,
+     }
+     try{
+        const result = await addComment(comment);
+      if(result?.data?.success){
+        message.success(result?.data?.message);
+        setNewComment("");
+      }else{
+        message.error(result?.data?.message);
+      }
+     }catch(error){
+        console.log("Some error occured");
+     }
+  }
   
   return (
     <>
@@ -43,53 +43,36 @@ const Comment = ({commentSectionOpen,setCommentSectionOpen}) => {
            <div className='flex flex-col items-start p-2 shadow-md gap-3 rounded-md'>
                 {/* LOGGED IN USER TO COMMENT */}
                 <div className='flex items-center gap-2'>
-                    <img className='h-[3rem] w-[3rem] rounded-full' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                    <h1 className='text-blackTertiary'>Nilay Singh</h1>
+                    <img className='h-[3rem] w-[3rem] rounded-full object-cover' src={user?.user?.photo} alt="profile" />
+                    <h1 className='text-blackTertiary'>{user?.user?.name}</h1>
                 </div>
-                <textarea type="text" placeholder='What are your thoughts ?' className='p-2 font-brygada w-full focus:outline-none h-[8rem] resize-none'/>
+                <textarea value={newComment} onChange={(e)=>setNewComment(e.target.value)} type="text" placeholder='What are your thoughts ?' className='p-2 font-brygada w-full focus:outline-none h-[8rem] resize-none'/>
                 <div className='w-full flex items-center justify-end'>
-                    <div className='bg-blackPrimary text-white rounded-[5rem] p-1 px-6 flex items-center w-[8rem] cursor-pointer'>
-                      <h1>Add Review</h1>
+                    <div onClick={handleAddCommment} className='bg-blackPrimary text-white rounded-[0.3rem] py-2 px-6 flex items-center justify-center w-[8rem] text-center cursor-pointer'>
+                        {isCommenting ? <Loading3QuartersOutlined spin/> : <h1>Add Review</h1>}
                     </div>
                 </div>                
            </div>
            {/* COMMENT SECTION */}
            <div className='flex flex-col gap-4'>
-                <h1 className='font-600 font-brygada text-[1rem]'>Reviews (34)</h1>
+                <h1 className='font-600 font-brygada text-[1rem]'>Reviews ({allComments?.comments?.length})</h1>
                 {/* COMMENT CARD */}
                 <div>
-                    <div className='flex flex-col items-start p-2 gap-3'>
-                        <div className='flex items-center gap-2'>
-                            <img className='h-[3rem] w-[3rem] rounded-full' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                            <h1 className='text-blackTertiary'>Nilay Singh</h1>
+                {
+                    allComments?.comments?.map((item,index)=>(
+                      <>
+                        <div className='flex flex-col items-start p-2 gap-3'>
+                            <div className='flex items-center gap-2'>
+                                <img className='h-[3rem] w-[3rem] rounded-full object-cover' src={item?.author?.photo} alt="profile" />
+                                <h1 className='text-blackTertiary'>{item?.author?.name}</h1>
+                            </div>
+                            <div className='font-brygada'>{item?.content}</div>          
                         </div>
-                        <div className='font-brygada'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut voluptate vel laborum soluta itaque rem totam sequi error omnis aperiam!</div>          
-                    </div>
-                    <Divider/>
-                    <div className='flex flex-col items-start p-2 gap-3'>
-                        <div className='flex items-center gap-2'>
-                            <img className='h-[3rem] w-[3rem] rounded-full' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                            <h1 className='text-blackTertiary'>Nilay Singh</h1>
-                        </div>
-                        <div className='font-brygada'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut voluptate vel laborum soluta itaque rem totam sequi error omnis aperiam!</div>          
-                    </div>
-                    <Divider/>
-                    <div className='flex flex-col items-start p-2 gap-3'>
-                        <div className='flex items-center gap-2'>
-                            <img className='h-[3rem] w-[3rem] rounded-full' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                            <h1 className='text-blackTertiary'>Nilay Singh</h1>
-                        </div>
-                        <div className='font-brygada'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut voluptate vel laborum soluta itaque rem totam sequi error omnis aperiam!</div>          
-                    </div>
-                    <Divider/>
-                    <div className='flex flex-col items-start p-2 gap-3'>
-                        <div className='flex items-center gap-2'>
-                            <img className='h-[3rem] w-[3rem] rounded-full' src="https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />
-                            <h1 className='text-blackTertiary'>Nilay Singh</h1>
-                        </div>
-                        <div className='font-brygada'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut voluptate vel laborum soluta itaque rem totam sequi error omnis aperiam!</div>          
-                    </div>
-                    <Divider/>
+                        <Divider/>
+                      </>  
+                    ))
+                }
+
                 </div>
            </div>
         </div>

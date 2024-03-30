@@ -7,6 +7,7 @@ import firebase from 'firebase/compat/app';
 import {ref, uploadBytesResumable, getDownloadURL,deleteObject} from "firebase/storage";
 import { useGetAllCategoriesQuery } from '../../redux/services/CategoryApi';
 import { useCreateBlogMutation } from '../../redux/services/BlogApi';
+import { useNavigate } from 'react-router-dom';
 
 const Write = () => {
 
@@ -19,6 +20,7 @@ const Write = () => {
     categories:[],
     photo:"",
   });
+  const navigate = useNavigate();
 
   const {data:categories,isLoading:isLoadingCategories} = useGetAllCategoriesQuery();
   const [createBlog,{isLoading:isCreatingBlog}] = useCreateBlogMutation();
@@ -77,7 +79,7 @@ const Write = () => {
     try{
       const result = await createBlog(form);
       console.log(result);
-      if(result?.data?.success){
+      if(result?.data && result?.data?.success && result?.data?.blog){
         message.success(result?.data?.message);
         setForm({
           title:"",
@@ -85,6 +87,7 @@ const Write = () => {
           categories:[],
           photo:"",
         })
+        navigate('/');        
       }else{
         message.error(result?.data?.message);
       }

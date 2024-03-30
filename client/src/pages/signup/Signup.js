@@ -132,7 +132,7 @@ const Signup = () => {
           {
             profileImg && uploadPerc === 100 &&
             <div className='flex items-center justify-between'>
-              <img src={profileImg} alt="" className='rounded-full h-[5rem] w-[5rem]'/>
+              <img src={profileImg} alt="" className='rounded-full h-[5rem] w-[5rem] object-cover'/>
               <DeleteOutlined className='text-[1.2rem] cursor-pointer text-gray-500' onClick={handleDeleteImage}/>
             </div>
           }

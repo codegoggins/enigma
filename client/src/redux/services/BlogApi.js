@@ -14,7 +14,7 @@ export const blogApi = createApi({
             return headers;
         },
     }),
-    tagTypes:["blog"],
+    tagTypes:["blog","comment"],
     endpoints:(builder)=>({
        getAllBlogs:builder.query({
         query:()=>"",
@@ -22,7 +22,11 @@ export const blogApi = createApi({
        }),
        getSingleBlog:builder.query({
         query:(id)=>`${id}`,
-        providesTags:(result) => result ? ["blog"] : ["blog"],
+        providesTags:(result) => result ? ["blog","comment"] : ["blog","comment"],
+       }),
+       getCommentsOnBlog:builder.query({
+        query:(id)=>`comments/${id}`,
+        providesTags:(result) => result ? ["blog","comment"] : ["blog","comment"],
        }),
         createBlog:builder.mutation({
             query:(body) => ({
@@ -30,9 +34,32 @@ export const blogApi = createApi({
                 method:"POST",
                 body:body,
             }),
+            invalidatesTags:["blog"],
+        }),
+        likeBlog:builder.mutation({
+            query:(id) => ({
+                url:`like/${id}`,
+                method:"POST",
+            }),
+            invalidatesTags:["blog"],
+        }),
+        dislikeBlog:builder.mutation({
+            query:(id) => ({
+                url:`dislike/${id}`,
+                method:"POST",
+            }),
+            invalidatesTags:["blog"],
+        }),
+        commentOnBlog:builder.mutation({
+            query:(body) => ({
+                url:`comment/${body.id}`,
+                method:"POST",
+                body:body,
+            }),
+            invalidatesTags:["comment"],
         }),
     })
 });
 
-export const {useGetAllBlogsQuery,useCreateBlogMutation,useGetSingleBlogQuery} = blogApi;
+export const {useGetAllBlogsQuery,useCreateBlogMutation,useGetSingleBlogQuery,useLikeBlogMutation,useDislikeBlogMutation,useCommentOnBlogMutation,useGetCommentsOnBlogQuery} = blogApi;
 export default blogApi;
