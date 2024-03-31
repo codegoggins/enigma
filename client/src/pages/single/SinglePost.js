@@ -8,7 +8,7 @@ import Comment from '../../components/app/comment/Comment';
 import {useParams} from 'react-router-dom';
 import { useDislikeBlogMutation, useGetSingleBlogQuery, useLikeBlogMutation } from '../../redux/services/BlogApi';
 import moment from 'moment';
-import { message } from 'antd';
+import { Spin, message } from 'antd';
 import { useGetUserQuery } from '../../redux/services/UserApi';
 
 const SinglePost = () => {
@@ -41,7 +41,19 @@ const SinglePost = () => {
     }
   }
 
+  if(isLoadingBlog){
+    return (
+      <div className='w-[20%] flex flex-col gap-2 items-center justify-center mx-auto mt-[15rem]'>
+        <Spin size="large"/>
+        <p className='text-blackPrimary font-cookie text-[2rem]'>"Stay tuned for brilliance."</p>
+      </div>
+    )
+  }
+
   return (
+    <>
+    {
+      !isLoadingBlog && 
     <div className='w-full p-6 flex items-center justify-center'>
         <div className='w-full flex flex-col px-[1rem] md:px-[16rem]'>
             {/* ADD Image if the blog posted by user consists of an image */}
@@ -104,6 +116,8 @@ const SinglePost = () => {
         </div>
         <Comment commentSectionOpen={commentSectionOpen} setCommentSectionOpen={setCommentSectionOpen} blogId={blogId}/>
     </div>
+    }
+    </>
   )
 }
 
