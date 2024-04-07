@@ -11,6 +11,7 @@ import AccessDenied from './pages/accessDenied/AccessDenied';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { loginUser, logoutUser } from './redux/services/Constants';
+import SavedPosts from './pages/savedPosts/SavedPosts';
 
 function App() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ function App() {
               <Route path='/new-post' element={loggedIn ? <Write/> : <AccessDenied/>}/>
               <Route path='/search' element={<Search/>}/>
               <Route path='/:id' element={<SinglePost/>}/>
+              <Route path='/saved' element={<SavedPosts/>}/>
            </Routes>
        </BrowserRouter>
     </div>

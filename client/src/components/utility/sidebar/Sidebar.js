@@ -25,21 +25,22 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
   const itemStyle = 'flex items-center text-blackTertiary gap-2 cursor-pointer';
 
   const postsItems = [
-    {
-        title:'Trending Posts',
-        icon:<IoTrendingUpSharp className={iconStyle}/>
-    },
-    {
-        title:'Top Authors',
-        icon:<SlBadge className={iconStyle}/>
-    },
-    {
-        title:'Recent Posts',
-        icon:<PiClockCountdown className={iconStyle}/>
-    },
+    // {
+    //     title:'Trending Posts',
+    //     icon:<IoTrendingUpSharp className={iconStyle}/>
+    // },
+    // {
+    //     title:'Top Authors',
+    //     icon:<SlBadge className={iconStyle}/>
+    // },
+    // {
+    //     title:'Recent Posts',
+    //     icon:<PiClockCountdown className={iconStyle}/>
+    // },
     {
         title:'Saved Posts',
-        icon:<IoBookmarksOutline className={iconStyle}/>
+        icon:<IoBookmarksOutline className={iconStyle}/>,
+        link:'/saved'
     },
   ]
 
@@ -64,7 +65,7 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
             <div className='flex flex-col gap-8'>
                 {
                     postsItems.map((item,index)=>(
-                        <div className={itemStyle} key={index}>
+                        <div className={itemStyle} key={index} onClick={()=>navigate(item?.link)}>
                             {item.icon}
                             <h1 className='text-[1rem]'>{item.title}</h1>
                         </div>  
@@ -77,14 +78,14 @@ const Sidebar = ({sidebarOpen,setSidebarOpen}) => {
                     <IoExitOutline className={iconStyle + ` transform -rotate-180`}/>
                     <h1 className='text-[1rem]'>Sign Out</h1>
                 </div>                
-                <div className={itemStyle}>
+                {/* <div className={itemStyle}>
                     <IoSettingsOutline className={iconStyle}/>
                     <h1 className='text-[1rem]'>Settings</h1>
                 </div>                                
                 <div className={itemStyle}>
                     <GoPerson className={iconStyle}/>
                     <h1 className='text-[1rem]'>Profile</h1>
-                </div>                                
+                </div>                                 */}
             </div>
         </div>
       </Drawer>

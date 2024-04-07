@@ -58,8 +58,22 @@ export const blogApi = createApi({
             }),
             invalidatesTags:["comment"],
         }),
+        saveBlog:builder.mutation({
+            query:(id) => ({
+                url:`save/${id}`,
+                method:"POST",
+            }),
+            invalidatesTags:["blog"],
+        }),
+        removeSavedBlog:builder.mutation({
+            query:(id) => ({
+                url:`remove-save/${id}`,
+                method:"POST",
+            }),
+            invalidatesTags:["blog"],
+        }),
     })
 });
 
-export const {useGetAllBlogsQuery,useCreateBlogMutation,useGetSingleBlogQuery,useLikeBlogMutation,useDislikeBlogMutation,useCommentOnBlogMutation,useGetCommentsOnBlogQuery} = blogApi;
+export const {useGetAllBlogsQuery,useCreateBlogMutation,useGetSingleBlogQuery,useLikeBlogMutation,useDislikeBlogMutation,useCommentOnBlogMutation,useGetCommentsOnBlogQuery,useSaveBlogMutation,useRemoveSavedBlogMutation} = blogApi;
 export default blogApi;
