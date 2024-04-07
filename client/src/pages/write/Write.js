@@ -75,10 +75,8 @@ const Write = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(form);
     try{
       const result = await createBlog(form);
-      console.log(result);
       if(result?.data && result?.data?.success && result?.data?.blog){
         message.success(result?.data?.message);
         setForm({

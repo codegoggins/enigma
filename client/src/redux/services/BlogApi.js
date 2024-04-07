@@ -14,7 +14,7 @@ export const blogApi = createApi({
             return headers;
         },
     }),
-    tagTypes:["blog","comment"],
+    tagTypes:["blog","comment","user"],
     endpoints:(builder)=>({
        getAllBlogs:builder.query({
         query:()=>"",
@@ -63,14 +63,14 @@ export const blogApi = createApi({
                 url:`save/${id}`,
                 method:"POST",
             }),
-            invalidatesTags:["blog"],
+            invalidatesTags:["blog","user"],
         }),
         removeSavedBlog:builder.mutation({
             query:(id) => ({
                 url:`remove-save/${id}`,
                 method:"POST",
             }),
-            invalidatesTags:["blog"],
+            invalidatesTags:["blog","user"],
         }),
     })
 });

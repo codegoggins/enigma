@@ -25,7 +25,6 @@ const Login = () => {
   const handleLogin = async () => {
     try{
       const result = await login(form);
-      console.log(result);
       if(result?.data?.success){
         message.success(result?.data?.message);
         const token = result.data.token;

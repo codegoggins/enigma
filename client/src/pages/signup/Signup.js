@@ -63,10 +63,8 @@ const Signup = () => {
   };
   
   const handleRegister = async () => {
-    console.log(form);
     try{
       const result = await generateOtp(form);
-      console.log(result);
       if(result?.data?.success){
         message.success(result?.data?.message);
         setIsOtp(true);
@@ -80,7 +78,6 @@ const Signup = () => {
   const handleSubmit = async () => {
     try{
       const result = await register(form);
-      console.log(result);
       if(result?.data?.success){
         message.success(result?.data?.message);
         navigate('/login');

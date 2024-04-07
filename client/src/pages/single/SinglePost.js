@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Divider from '../../components/utility/divider/Divider';
 import { BiUpvote,BiDownvote,BiSolidUpvote,BiSolidDownvote} from "react-icons/bi";
 import { LiaComments } from "react-icons/lia";
-import { IoBookmarksOutline} from "react-icons/io5";
+import { IoBookmarksOutline,IoBookmarksSharp} from "react-icons/io5";
 import { BsThreeDots } from "react-icons/bs";
 import Comment from '../../components/app/comment/Comment';
 import {useParams} from 'react-router-dom';
-import { useDislikeBlogMutation, useGetSingleBlogQuery, useLikeBlogMutation } from '../../redux/services/BlogApi';
+import { useDislikeBlogMutation, useGetSingleBlogQuery, useLikeBlogMutation, useRemoveSavedBlogMutation, useSaveBlogMutation } from '../../redux/services/BlogApi';
 import moment from 'moment';
 import { Spin, message } from 'antd';
 import { useGetUserQuery } from '../../redux/services/UserApi';
@@ -16,14 +16,12 @@ const SinglePost = () => {
   const [commentSectionOpen,setCommentSectionOpen] = useState(false);
   const params = useParams();
   const blogId = params.id;
-  console.log(blogId);
-
   const {data:blog,isLoading:isLoadingBlog} = useGetSingleBlogQuery(blogId);
   const [likeBlog,{isLoading:isLiking}] = useLikeBlogMutation();
   const [dislikeBlog,{isLoading:isDisliking}] = useDislikeBlogMutation();
+  const [saveBlog,{isLoading:isSaving}] = useSaveBlogMutation();
+  const [removeSavedBlog,{isLoading:isRemoving}] = useRemoveSavedBlogMutation();
   const {data:user,isLoading:isLoadingUser} = useGetUserQuery();
-  console.log(blog?.blog?.likes);
-  console.log(user?.user?._id);
 
   const handleLike = async () => {
     try{
@@ -33,13 +31,33 @@ const SinglePost = () => {
     }
   }
 
-  const handleDilike = async () => {
+  const handleDislike = async () => {
     try{
      const result = await dislikeBlog(blogId);
     }catch(error){
       message.error("Some error occured");
     }
   }
+  const handleSaveBlog = async () => {
+    try{
+     const result = await saveBlog(blogId);
+     window.location.reload();
+     console.log(result);
+    }catch(error){
+      message.error("Some error occured");
+    }
+  }
+  const handleRemoveBlog = async () => {
+    try{
+     const result = await removeSavedBlog(blogId);
+     window.location.reload();
+     console.log(result);
+    }catch(error){
+      message.error("Some error occured");
+    }
+  }
+
+  console.log(user?.user?.savedPosts);
 
   if(isLoadingBlog){
     return (
@@ -85,14 +103,18 @@ const SinglePost = () => {
                         </div>
                        <span className='text-[0.9rem] font-[500]'>{blog?.blog?.likes?.length}</span></h1>
                     <h1 className='flex items-center gap-[0.2rem] text-[1.6rem]'>
-                        <div onClick={handleDilike} className='cursor-pointer'>
+                        <div onClick={handleDislike} className='cursor-pointer'>
                            {blog?.blog?.dislikes?.includes(user?.user?._id) ? <BiSolidDownvote/> : <BiDownvote />}
                         </div>
                        <span className='text-[0.9rem] font-[500]'>{blog?.blog?.dislikes?.length}</span></h1>
                     <h1 onClick={()=>setCommentSectionOpen(true)} className='cursor-pointer flex items-center gap-[0.2rem] text-[1.8rem]'><LiaComments /><span className='text-[0.9rem] font-[500]'>{blog?.blog?.comments?.length}</span></h1>
                </div>
                <div className='flex items-center gap-3 text-[1.5rem] text-blackTertiary'>
-                    <h1 className='cursor-pointer'><IoBookmarksOutline/></h1>
+                    <h1 className='cursor-pointer'>
+                      {
+                        user?.user?.savedPosts?.includes(blogId) ? <IoBookmarksSharp onClick={handleRemoveBlog}/> : <IoBookmarksOutline onClick={handleSaveBlog}/>
+                      }
+                    </h1>
                     <h1 className='cursor-pointer'><BsThreeDots/></h1>
                </div>
             </div>
